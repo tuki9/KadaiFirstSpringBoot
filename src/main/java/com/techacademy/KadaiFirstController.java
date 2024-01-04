@@ -7,22 +7,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 @RestController
 public class KadaiFirstController {
 
     //仕様1
-    @GetMapping("/dayofweek/{day1}")
-    public String dispDayOfWeek(@PathVariable String day1){
-        LocalDate.parse(day1,DateTimeFormatter.ofPattern("yyyyMMdd"));
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        String []week= {"SATURDAY","SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY"};
-        return week[cal.get(Calendar.DAY_OF_WEEK)];
-    }
+    @GetMapping("/dayofweek/{date}")
+    public String dispDayOfWeek(@PathVariable String date){
+        LocalDate day1 = LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        DayOfWeek dayOfWeek = day1.getDayOfWeek();
+        String full_name = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
+
+        return full_name;
+
+
+            }
+
 
 
     //仕様2　足し算
